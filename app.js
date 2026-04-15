@@ -4,7 +4,10 @@ import cors from "cors";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-const DB_HOST = "mongodb+srv://Hanna_admin:bcq8KisAGPX6enh@cluster0.z3eihk6.mongodb.net/contacts?appName=Cluster0";
+const dotenv = require("dotenv");
+dotenv.config();
+
+const { DB_HOST } = process.env;
 const mongoose = require("mongoose");
 mongoose.connect(
   DB_HOST,

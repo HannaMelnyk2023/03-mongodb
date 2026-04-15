@@ -3,8 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 
-const DB_HOST =
-    "mongodb+srv://Hanna_admin:bcq8KisAGPX6enh@cluster0.z3eihk6.mongodb.net/contacts?appName=Cluster0";
+
+const { DB_HOST } = process.env;
 const app = require("../app.js");
 const mongoose = require("mongoose");
 mongoose.connect(
