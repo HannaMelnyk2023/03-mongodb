@@ -2,6 +2,23 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
+
+const DB_HOST =
+    "mongodb+srv://Hanna_admin:bcq8KisAGPX6enh@cluster0.z3eihk6.mongodb.net/contacts?appName=Cluster0";
+const app = require("../app.js");
+const mongoose = require("mongoose");
+mongoose.connect(
+    DB_HOST,
+)
+    .then(() => app.listen(3000, () => {
+        console.log("Server is running. Use our API on port: 3000");
+    }))
+    .catch((err) => {
+        console.error("Database connection error:", err);
+        process.exit(1);
+    });
+mongoose.set("strictQuery", true);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,7 +31,9 @@ export async function listContacts() {
 
 export async function getContactById(contactId) {
     const contacts = await listContacts();
-    return contacts.find((contact) => String(contact.id) === String(contactId)) || null;
+    return (
+        contacts.find((contact) => String(contact.id) === String(contactId)) || null
+    );
 }
 
 export async function removeContact(contactId) {
