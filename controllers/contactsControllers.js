@@ -1,13 +1,18 @@
 import contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 
-export const getAllContacts = (req, res, next) => {
-    contactsService
-        .listContacts()
-        .then((contacts) => res.json(contacts))
-        .catch((error) => {
-            next(HttpError(500, error.message));
-        });
+const Contact = require("../models/contact.js");
+
+export const getAllContacts = async (req, res, next) => {
+    const result = await Contact.find();
+    res
+        .json(result)
+    // contactsService
+    // .listContacts()
+    // .then((contacts) => res.json(contacts))
+    // .catch((error) => {
+    //     next(HttpError(500, error.message));
+    // });
 };
 
 export const getOneContact = (req, res, next) => {
@@ -42,14 +47,18 @@ export const deleteContact = (req, res, next) => {
 
 export const createContact = (req, res, next) => {
     const { name, email, phone } = req.body;
-    contactsService
-        .addContact(name, email, phone)
-        .then((contact) => {
-            res.status(201).json(contact);
-        })
-        .catch((error) => {
-            next(HttpError(500, error.message));
-        });
+    const addContact = async (req, res, next) => {
+        const result = await Contact.create({ name, email, phone });
+        res.status(201).json(result);
+    }
+    //   contactsService
+    //     .addContact(name, email, phone)
+    //     .then((contact) => {
+    //       res.status(201).json(contact);
+    //     })
+    //     .catch((error) => {
+    //       next(HttpError(500, error.message));
+    //     });
 };
 
 export const updateContact = (req, res, next) => {
@@ -70,4 +79,12 @@ export const updateContact = (req, res, next) => {
         .catch((error) => {
             next(HttpError(500, error.message));
         });
+};
+
+export default {
+    getAllContacts,
+    getOneContact,
+    deleteContact,
+    createContact,
+    updateContact,
 };
