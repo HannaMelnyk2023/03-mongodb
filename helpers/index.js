@@ -1,5 +1,5 @@
-const handleMongooseError = require("./handleMongooseError.js");
+import handleMongooseError from "./handleMongooseError.js";
 
-module.exports = {
+export default {
     handleMongooseError,
 };

@@ -1,3 +1,5 @@
+import HttpError from "./HttpError.js";
+
 const handleMongooseError = (error, data, next) => {
     if (error) {
         next(HttpError(400, error.message));
@@ -6,4 +8,4 @@ const handleMongooseError = (error, data, next) => {
     }
 };
 
-module.exports = handleMongooseError;
+export default handleMongooseError;

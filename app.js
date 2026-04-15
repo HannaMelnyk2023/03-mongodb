@@ -4,21 +4,12 @@ import cors from "cors";
 
 import contactsRouter from "./routes/contactsRouter.js";
 
-const dotenv = require("dotenv");
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
 dotenv.config();
 
 const { DB_HOST } = process.env;
-const mongoose = require("mongoose");
-mongoose.connect(
-  DB_HOST,
-);
-mongoose.connext(DB_HOST)
-  .then(() => console.log("Database connection successful"))
-  .catch((err) => {
-    console.error("Database connection error:", err);
-    process.exit(1);
-  });
-
 
 const app = express();
 
@@ -37,6 +28,14 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running. Use our API on port: 3000");
-});
+mongoose.connect(DB_HOST)
+  .then(() => {
+    console.log("Database connection successful");
+    app.listen(3000, () => {
+      console.log("Server is running. Use our API on port: 3000");
+    })
+  })
+  .catch((err) => {
+    console.error("Database connection error:", err);
+    process.exit(1);
+  });
